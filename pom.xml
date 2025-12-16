@@ -65,6 +65,13 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<version>11.0.14</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.20.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

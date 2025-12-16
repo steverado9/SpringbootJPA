@@ -5,15 +5,13 @@ import com.steverado.bootjpa.model.Alien;
 import org.apache.el.parser.AstGreaterThan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class AlienController {
 
     @Autowired
@@ -24,24 +22,37 @@ public class AlienController {
         return "home";
     }
 
-    @RequestMapping("/addAlien")
-    public String addALien(Alien alien) {
+    @DeleteMapping("/alien/{aid}")
+    public String deleteAlien(@PathVariable int aid) {
+        Alien a = repo.getById(aid);
+
+        repo.delete(a);
+
+        return "deleted";
+    }
+
+    @PostMapping(path ="/alien", consumes = {"application/json"})
+    public Alien addALien(@RequestBody Alien alien) {
         repo.save(alien);
-        return "home";
+        return alien;
     }
 
-    @RequestMapping("/aliens")
-    @ResponseBody
-    public String getALiens() {
+    @GetMapping("/aliens")
+    public List<Alien> getALiens() {
         //converting the returned iterable to string
-        return repo.findAll().toString() ;
+        return repo.findAll() ;
     }
 
-    @RequestMapping("/alien/{aid}")
-    @ResponseBody
-    public String getALien(@PathVariable("aid") int aid) {
+    @PutMapping(path ="/alien", consumes = {"application/json"})
+    public Alien saveOrUpdateALien(@RequestBody Alien alien) {
+        repo.save(alien);
+        return alien;
+    }
+
+    @GetMapping("/alien/{aid}")
+    public Alien getALien(@PathVariable("aid") int aid) {
         //converting the returned iterable to string
-        return repo.findById(aid).toString() ;
+        return repo.findById(aid).orElseThrow(() -> new RuntimeException("Alien not found"));
     }
 
 //    @RequestMapping("/getAlien")
