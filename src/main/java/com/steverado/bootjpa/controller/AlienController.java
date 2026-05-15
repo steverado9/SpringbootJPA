@@ -19,7 +19,7 @@ public class AlienController {
 
     @RequestMapping("/")
     public String home() {
-        return "home";
+        return "home.jsp";
     }
 
     @DeleteMapping("/alien/{aid}")
@@ -49,22 +49,22 @@ public class AlienController {
         return alien;
     }
 
-    @GetMapping("/alien/{aid}")
-    public Alien getALien(@PathVariable("aid") int aid) {
-        //converting the returned iterable to string
-        return repo.findById(aid).orElseThrow(() -> new RuntimeException("Alien not found"));
-    }
-
-//    @RequestMapping("/getAlien")
-//    public ModelAndView getALien(@RequestParam int aid) {
-//        ModelAndView mv = new ModelAndView("showAlien");
-//        Alien alien = repo.findById(aid).orElse(new Alien());
-//
-//        System.out.println(repo.findByTech("Java"));
-//        System.out.println(repo.findByAidGreaterThan(102));
-//        System.out.println(repo.findByTechSorted("java"));
-//
-//        mv.addObject(alien);
-//        return mv;
+//    @GetMapping("/alien/{aid}")
+//    public Alien getALien(@PathVariable("aid") int aid) {
+//        //converting the returned iterable to string
+//        return repo.findById(aid).orElseThrow(() -> new RuntimeException("Alien not found"));
 //    }
+
+    @RequestMapping("/getAlien")
+    public ModelAndView getALien(@RequestParam int aid) {
+        ModelAndView mv = new ModelAndView("showAlien");
+        Alien alien = repo.findById(aid).orElse(new Alien());
+
+        System.out.println(repo.findByTech("Java"));
+        System.out.println(repo.findByAidGreaterThan(102));
+        System.out.println(repo.findByTechSorted("java"));
+
+        mv.addObject(alien);
+        return mv;
+    }
 }
